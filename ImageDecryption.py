@@ -77,4 +77,5 @@ for i in range(im.size[0]):
             newB = np.base_repr(newB, 16)
 
         pixels[i, j] = int(inverseSBox[int(newR[0], 16), int(newR[1], 16)], 16), int(inverseSBox[int(newG[0], 16), int(newG[1], 16)], 16), int(inverseSBox[int(newB[0], 16), int(newB[1], 16)], 16)
-im.show()
+
+im.save("watchDecrypted.png")
