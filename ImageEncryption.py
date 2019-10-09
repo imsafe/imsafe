@@ -2,7 +2,13 @@ import random
 import numpy as np
 from PIL import Image
 
-seed = input("Seed değeri giriniz: ")
+def convertDecToHex(decimalNumber):
+    if decimalNumber <= 15:
+        return "0" + np.base_repr(decimalNumber, 16)
+    else:
+        return np.base_repr(decimalNumber, 16)
+
+seed = input("Enter a seed value:")
 random.seed(seed)
 
 x = np.arange(256)
@@ -19,10 +25,7 @@ sBox = np.empty((16, 16), dtype='object')
 
 for i in range(0, 16):
     for j in range(0, 16):
-        if x[i][j] <= 15:
-            sBox[i][j] = "0" + np.base_repr(x[i, j], 16)
-        else:
-            sBox[i][j] = np.base_repr(x[i, j], 16)
+        sBox[i][j] = convertDecToHex(x[i][j])
 
 inverseSBox = np.empty((16, 16), dtype='object')
 
@@ -42,20 +45,9 @@ for i in range(im.size[0]):
     for j in range(im.size[1]):
         r, g, b = rgb_im.getpixel((i, j))
 
-        if r <= 15:
-            hexR = "0" + np.base_repr(r, 16)
-        else:
-            hexR = np.base_repr(r, 16)
-
-        if g <= 15:
-            hexG = "0" + np.base_repr(g, 16)
-        else:
-            hexG = np.base_repr(g, 16)
-
-        if b <= 15:
-            hexB = "0" + np.base_repr(b, 16)
-        else:
-            hexB = np.base_repr(b, 16)
+        hexR = convertDecToHex(r)
+        hexG = convertDecToHex(g)
+        hexB = convertDecToHex(b)
 
         rowR = int(hexR[0], 16)
         columnR = int(hexR[1], 16)
@@ -73,4 +65,4 @@ for i in range(im.size[0]):
         pixels[i, j] = newR, newG, newB
 
 im.save("watchEncrypted.png")
-#im.show()
+im.show()
