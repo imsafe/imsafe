@@ -23,3 +23,12 @@ for i in range(0, 16):
             sBox[i][j] = "0" + np.base_repr(x[i, j], 16)
         else:
             sBox[i][j] = np.base_repr(x[i, j], 16)
+
+inverseSBox = np.empty((16, 16), dtype='object')
+
+for i in range(0, 16):
+    for j in range(0, 16):
+        value = sBox[i, j]
+        row = int(value[0], 16)
+        column = int(value[1], 16)
+        inverseSBox[row, column] = np.base_repr(i, 16) + np.base_repr(j, 16)
