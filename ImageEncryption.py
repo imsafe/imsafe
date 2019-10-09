@@ -72,5 +72,5 @@ for i in range(im.size[0]):
 
         pixels[i, j] = newR, newG, newB
 
-#im.save("encryptedImage.jpg")
-im.show()
+im.save("watchEncrypted.png")
+#im.show()
