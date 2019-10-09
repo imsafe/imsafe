@@ -1,7 +1,12 @@
 import random
 import numpy as np
 from PIL import Image
-from ImageEncryption import convertDecToHex
+
+def convertDecToHex(decimalNumber):
+    if decimalNumber <= 15:
+        return "0" + np.base_repr(decimalNumber, 16)
+    else:
+        return np.base_repr(decimalNumber, 16)
 
 seed = input("Enter a seed value:")
 random.seed(seed)
