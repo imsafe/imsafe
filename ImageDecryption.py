@@ -25,10 +25,7 @@ sBox = np.empty((16, 16), dtype='object')
 
 for i in range(0, 16):
     for j in range(0, 16):
-        if x[i][j] <= 15:
-            sBox[i][j] = "0" + np.base_repr(x[i, j], 16)
-        else:
-            sBox[i][j] = np.base_repr(x[i, j], 16)
+        sBox[i][j] = convertDecToHex(x[i][j])
 
 inverseSBox = np.empty((16, 16), dtype='object')
 
