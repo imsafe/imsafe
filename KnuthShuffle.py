@@ -2,15 +2,13 @@ import random
 import numpy as np
 
 
-class DynamicSBox:
-    seed = 0
-    sBox = 0
-    inverse_sBox = 0
-    x = 0
+class KnuthShuffle:
 
     def __init__(self, seed):
+        self.seed = seed
+        self.sBox = 0
+        self.inverse_sBox = 0
         random.seed(seed)
-        print('Seed', seed)
 
     def convertDecToHex(self, decimalNumber):
         if decimalNumber <= 15:
@@ -19,20 +17,22 @@ class DynamicSBox:
             return np.base_repr(decimalNumber, 16)
 
     def create_sBox(self):
-        self.x = np.arange(256)
+        x = np.arange(256)
 
         for i in range(255, -1, -1):
             j = random.randint(0, 255)
-            temp = self.x[i]
-            self.x[i] = self.x[j]
-            self.x[j] = temp
+            temp = x[i]
+            x[i] = x[j]
+            x[j] = temp
 
-        self.x = np.reshape(self.x, (16, 16))
+        x = np.reshape(x, (16, 16))
         self.sBox = np.empty((16, 16), dtype='object')
 
         for i in range(0, 16):
             for j in range(0, 16):
-                self.sBox[i][j] = self.convertDecToHex(self.x[i][j])
+                self.sBox[i][j] = self.convertDecToHex(x[i][j])
+
+        return self.sBox
 
     def create_inverse_sBox(self):
         self.inverse_sBox = np.empty((16, 16), dtype='object')
@@ -44,7 +44,4 @@ class DynamicSBox:
                 column = int(value[1], 16)
                 self.inverse_sBox[row, column] = np.base_repr(i, 16) + np.base_repr(j, 16)
 
-
-sbox = DynamicSBox(123)
-sbox.create_sBox()
-sbox.create_inverse_sBox()
+        return self.inverse_sBox
