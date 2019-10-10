@@ -2,11 +2,11 @@ import random
 import numpy as np
 from PIL import Image
 
+
 def convertDecToHex(decimalNumber):
     if decimalNumber <= 15:
         return "0" + np.base_repr(decimalNumber, 16)
-    else:
-        return np.base_repr(decimalNumber, 16)
+    return np.base_repr(decimalNumber, 16)
 
 seed = input("Enter a seed value:")
 random.seed(seed)
@@ -57,7 +57,9 @@ for i in range(im.size[0]):
         newG = convertDecToHex(newG)
         newB = convertDecToHex(newB)
 
-        pixels[i, j] = int(inverseSBox[int(newR[0], 16), int(newR[1], 16)], 16), int(inverseSBox[int(newG[0], 16), int(newG[1], 16)], 16), int(inverseSBox[int(newB[0], 16), int(newB[1], 16)], 16)
+        pixels[i, j] = int(inverseSBox[int(newR[0], 16), int(newR[1], 16)], 16), int(
+            inverseSBox[int(newG[0], 16), int(newG[1], 16)], 16), int(inverseSBox[int(newB[0], 16), int(newB[1], 16)],
+                                                                      16)
 
 im.save("watchDecrypted.png")
 im.show()
