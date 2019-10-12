@@ -13,8 +13,11 @@ if __name__ == '__main__':
     random_state = random.getstate()
 
     image_encryption = ImageEncryption()
-    image_encryption.encrypt(sBox, random, "cat.png")
+    en_image = image_encryption.encrypt(sBox, random, "cat.png")
+    en_image.show()
+    en_image.save("encrypted_image.png")
 
     random.setstate(random_state)
 
-    image_encryption.decrypt(sBox, inverse_sBox, random, "encrypted_image.png")
+    dec_image = image_encryption.decrypt(sBox, inverse_sBox, random, "encrypted_image.png")
+    dec_image.show()

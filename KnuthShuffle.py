@@ -1,4 +1,5 @@
 import numpy as np
+import Utility as Util
 
 
 class KnuthShuffle:
@@ -6,12 +7,6 @@ class KnuthShuffle:
     def __init__(self):
         self.sBox = 0
         self.inverse_sBox = 0
-
-    def convertDecToHex(self, decimalNumber):
-        if decimalNumber <= 15:
-            return "0" + np.base_repr(decimalNumber, 16)
-        else:
-            return np.base_repr(decimalNumber, 16)
 
     def create_sBox(self, random):
         x = np.arange(256)
@@ -27,7 +22,7 @@ class KnuthShuffle:
 
         for i in range(0, 16):
             for j in range(0, 16):
-                self.sBox[i][j] = self.convertDecToHex(x[i][j])
+                self.sBox[i][j] = Util.convertDecToHex(x[i][j])
 
         return self.sBox
 
