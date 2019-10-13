@@ -1,6 +1,7 @@
 from PIL import Image
 import Utility as Util
-
+from skimage.measure import compare_ssim
+import cv2
 
 class ImageEncryption:
 
@@ -61,4 +62,17 @@ class ImageEncryption:
                     16)
 
         return im
+
+    @staticmethod
+    def calculate_ssim(first_image, second_image):
+        imageA = cv2.imread(first_image)
+        imageB = cv2.imread(second_image)
+
+        grayA = cv2.cvtColor(imageA, cv2.COLOR_BGR2GRAY)
+        grayB = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
+
+        # structural_similarity_index = compare_ssim(imageA, imageB, multichannel=True)
+        structural_similarity_index = compare_ssim(grayA, grayB)
+
+        print("Structural Similarity Index: {}".format(structural_similarity_index))
 
