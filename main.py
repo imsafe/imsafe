@@ -28,4 +28,3 @@ if __name__ == '__main__':
     dec_image.show()
 
     ImageEncryption.calculate_ssim(image_file_name, decrypted_image_file_name)
-
