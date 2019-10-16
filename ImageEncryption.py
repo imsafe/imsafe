@@ -2,7 +2,6 @@ from PIL import Image
 import Utility as Util
 
 
-
 class ImageEncryption:
 
     def encrypt(self, sBox, random, image):
