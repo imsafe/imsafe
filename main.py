@@ -1,10 +1,11 @@
 from KnuthShuffle import KnuthShuffle
 from ImageEncryption import ImageEncryption
 import random
+import Utility as Util
 
 if __name__ == '__main__':
 
-    random.seed(123)
+    random.seed("sdkfjgl_12@")
 
     shuffle = KnuthShuffle()
     sBox = shuffle.create_sBox(random)
@@ -21,3 +22,7 @@ if __name__ == '__main__':
 
     dec_image = image_encryption.decrypt(sBox, inverse_sBox, random, "encrypted_image.png")
     dec_image.show()
+    dec_image.save('decrypted_image.png')
+    Util.imageHistogram('cat.png')
+    Util.imageHistogram('encrypted_image.png')
+    Util.imageHistogram('decrypted_image.png')

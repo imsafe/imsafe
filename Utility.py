@@ -9,8 +9,8 @@ def convertDecToHex(decimalNumber):
         return np.base_repr(decimalNumber, 16)
 
 
-def imageHistogram():
-    img = cv.imread('cat.png', 0)
+def imageHistogram(image):
+    img = cv.imread(image, 0)
     hist = cv.calcHist([img], [0], None, [256], [0, 256])
     hist, bins = np.histogram(img.ravel(), 256, [0, 256])
     plt.hist(img.ravel(), 256, [0, 256])
