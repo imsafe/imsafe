@@ -1,6 +1,7 @@
 from KnuthShuffle import KnuthShuffle
 from ImageEncryption import ImageEncryption
 import random
+import Utility as Util
 
 if __name__ == '__main__':
 
@@ -27,4 +28,4 @@ if __name__ == '__main__':
     dec_image.save(decrypted_image_file_name)
     dec_image.show()
 
-    ImageEncryption.calculate_ssim(image_file_name, decrypted_image_file_name)
+    Util.calculate_ssim(image_file_name, decrypted_image_file_name)
