@@ -27,7 +27,7 @@ def calculate_ssim(first_image, second_image):
     grayA = cv2.cvtColor(imageA, cv2.COLOR_BGR2GRAY)
     grayB = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
 
-    # structural_similarity_index = compare_ssim(imageA, imageB, multichannel=True)
+    # structural_similarity_index = structural_similarity(imageA, imageB, multichannel=True)
     structural_similarity_index = structural_similarity(grayA, grayB)
 
     print("Structural Similarity Index: {}".format(structural_similarity_index))
