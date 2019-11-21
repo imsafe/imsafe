@@ -18,6 +18,12 @@ def image_histogram(image):
     plt.hist(img.ravel(), 256, [0, 256])
     plt.show()
 
+def img_ravel(image):
+    img = cv2.imread(image, 0)
+    hist = cv2.calcHist([img], [0], None, [256], [0, 256])
+    hist, bins = np.histogram(img.ravel(), 256, [0, 256])
+
+    return img.ravel()
 
 def calculate_ssim(first_image, second_image):
     imageA = cv2.imread(first_image)
