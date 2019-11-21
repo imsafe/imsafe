@@ -3,8 +3,7 @@ import Utility as Util
 
 
 class ImageEncryption:
-
-    def encrypt(self, sBox, random, image):
+    def encrypt(self, sBox, random_numbers, image):
         im = Image.open(image)
         rgb_im = im.convert('RGB')
         pixels = im.load()
@@ -26,15 +25,15 @@ class ImageEncryption:
                 rowB = int(hexB[0], 16)
                 columnB = int(hexB[1], 16)
 
-                newR = int(sBox[random.randint(0, 15), random.randint(0, 15)], 16) ^ int(sBox[rowR, columnR], 16)
-                newG = int(sBox[random.randint(0, 15), random.randint(0, 15)], 16) ^ int(sBox[rowG, columnG], 16)
-                newB = int(sBox[random.randint(0, 15), random.randint(0, 15)], 16) ^ int(sBox[rowB, columnB], 16)
+                newR = int(sBox[random_numbers[i][j][0], random_numbers[i][j][1]], 16) ^ int(sBox[rowR, columnR], 16)
+                newG = int(sBox[random_numbers[i][j][2], random_numbers[i][j][3]], 16) ^ int(sBox[rowG, columnG], 16)
+                newB = int(sBox[random_numbers[i][j][4], random_numbers[i][j][5]], 16) ^ int(sBox[rowB, columnB], 16)
 
                 pixels[i, j] = newR, newG, newB
 
         return im
 
-    def decrypt(self, sBox, inverseSBox, random, image):
+    def decrypt(self, sBox, inverseSBox, random_numbers, image):
         im = Image.open(image)
         rgb_im = im.convert('RGB')
         pixels = im.load()
@@ -47,9 +46,9 @@ class ImageEncryption:
                 hexG = Util.convertDecToHex(g)
                 hexB = Util.convertDecToHex(b)
 
-                newR = int(sBox[random.randint(0, 15), random.randint(0, 15)], 16) ^ int(hexR, 16)
-                newG = int(sBox[random.randint(0, 15), random.randint(0, 15)], 16) ^ int(hexG, 16)
-                newB = int(sBox[random.randint(0, 15), random.randint(0, 15)], 16) ^ int(hexB, 16)
+                newR = int(sBox[random_numbers[i][j][0], random_numbers[i][j][1]], 16) ^ int(hexR, 16)
+                newG = int(sBox[random_numbers[i][j][2], random_numbers[i][j][3]], 16) ^ int(hexG, 16)
+                newB = int(sBox[random_numbers[i][j][4], random_numbers[i][j][5]], 16) ^ int(hexB, 16)
 
                 newR = Util.convertDecToHex(newR)
                 newG = Util.convertDecToHex(newG)
