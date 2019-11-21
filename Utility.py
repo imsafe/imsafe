@@ -1,7 +1,8 @@
-import numpy as np
-from skimage.measure import compare_ssim
 import cv2
+import numpy as np
+from PIL import Image
 from matplotlib import pyplot as plt
+from skimage.metrics import structural_similarity
 
 
 def convertDecToHex(decimalNumber):
@@ -27,6 +28,18 @@ def calculate_ssim(first_image, second_image):
     grayB = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
 
     # structural_similarity_index = compare_ssim(imageA, imageB, multichannel=True)
-    structural_similarity_index = compare_ssim(grayA, grayB)
+    structural_similarity_index = structural_similarity(grayA, grayB)
 
     print("Structural Similarity Index: {}".format(structural_similarity_index))
+
+
+def generate_random_number(image, random):
+    im = Image.open(image)
+    random_numbers = np.empty((im.size[0], im.size[1], 6), dtype=int)
+
+    for i in range(im.size[0]):
+        for j in range(im.size[1]):
+            for k in range(6):
+                random_numbers[i][j][k] = random.randint(0, 15)
+
+    return random_numbers

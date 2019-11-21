@@ -3,7 +3,6 @@ import Utility as Util
 
 
 class KnuthShuffle:
-
     def __init__(self):
         self.sBox = 0
         self.inverse_sBox = 0
