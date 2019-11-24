@@ -1,7 +1,7 @@
 import random
 import Utility as Util
-from ImageEncryption import ImageEncryption
-from KnuthShuffle import KnuthShuffle
+from encryption.ImageEncryption import ImageEncryption
+from encryption.KnuthShuffle import KnuthShuffle
 
 if __name__ == '__main__':
     image_file_name = "img/test.png"
