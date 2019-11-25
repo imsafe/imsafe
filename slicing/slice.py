@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import os
 # Read the image in greyscale
-img = cv2.imread('../img/coin.png',0)
+img = cv2.imread('img/coin.png',0)
 
 #Iterate over each pixel and change pixel value to binary using np.binary_repr() and store it in a list.
 lst = []
@@ -31,17 +31,14 @@ final = cv2.vconcat([finalr,finalv])
 # Display the images
 # cv2.imshow('a',final)
 # cv2.waitKey(0)
-cv2.imwrite('slice.png', final)
+cv2.imwrite('results/slice.png', final)
 
 ms4_bit_img = eight_bit_img + seven_bit_img + six_bit_img + five_bit_img
-cv2.imwrite('4-bit-slice.png', ms4_bit_img)
+cv2.imwrite('results/4-bit-slice.png', ms4_bit_img)
 
 
-original_size = os.path.getsize('../img/coin.png')
-slice_size = os.path.getsize('4-bit-slice.png')
-jpg_size = os.path.getsize('4-bit-slice.jpg')
+original_size = os.path.getsize('img/coin.png')
+slice_size = os.path.getsize('results/4-bit-slice.png')
 print('Original image: ' , original_size)
 print('4-bit slice image: ' , slice_size)
-print('jpg image: ' , jpg_size)
 print(original_size/slice_size*100)
-print(original_size/jpg_size*100)
