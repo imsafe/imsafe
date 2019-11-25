@@ -3,9 +3,8 @@ import Utility as Util
 from encryption.ImageEncryption import ImageEncryption
 from encryption.KnuthShuffle import KnuthShuffle
 
-image_file_name = "img/test.png"
+image_file_name = input('Enter image path: ')
 encrypted_image_file_name = "results/encrypted_image.png"
-decrypted_image_file_name = "results/decrypted_image.png"
 
 password = input("Enter password: ")
 random.seed(password)
