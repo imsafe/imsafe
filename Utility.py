@@ -19,12 +19,14 @@ def image_histogram(image):
     plt.hist(img.ravel(), 256, [0, 256])
     plt.show()
 
+
 def img_ravel(image):
     img = cv2.imread(image, 0)
     hist = cv2.calcHist([img], [0], None, [256], [0, 256])
     hist, bins = np.histogram(img.ravel(), 256, [0, 256])
 
     return img.ravel()
+
 
 def calculate_ssim(first_image, second_image):
     imageA = cv2.imread(first_image)
@@ -49,3 +51,7 @@ def generate_random_number(image, random):
                 random_numbers[i][j][k] = random.randint(0, 15)
 
     return random_numbers
+
+
+def psnr(img1, img2):
+    return cv2.PSNR(img1, img2)
