@@ -3,14 +3,15 @@ import Utility as Util
 
 
 class ImageEncryption:
-    def encrypt(self, sBox, random_numbers, image):
-        im = Image.open(image)
-        rgb_im = im.convert('RGB')
-        pixels = im.load()
+    def encrypt(self, sBox, random_numbers, im):
+        # im = Image.open(image)
+        # rgb_im = im.convert('RGB')
+        # pixels = im.load()
 
-        for i in range(im.size[0]):
-            for j in range(im.size[1]):
-                r, g, b = rgb_im.getpixel((i, j))
+        for i in range(len(im)):
+            for j in range(len(im[0])):
+                # r, g, b = rgb_im.getpixel((i, j))
+                b, g, r = im[i][j]
 
                 hexR = Util.convertDecToHex(r)
                 hexG = Util.convertDecToHex(g)
@@ -29,18 +30,18 @@ class ImageEncryption:
                 newG = int(sBox[random_numbers[i][j][2], random_numbers[i][j][3]], 16) ^ int(sBox[rowG, columnG], 16)
                 newB = int(sBox[random_numbers[i][j][4], random_numbers[i][j][5]], 16) ^ int(sBox[rowB, columnB], 16)
 
-                pixels[i, j] = newR, newG, newB
+                im[i, j] = newB, newG, newR
 
         return im
 
-    def decrypt(self, sBox, inverseSBox, random_numbers, image):
-        im = Image.open(image)
-        rgb_im = im.convert('RGB')
-        pixels = im.load()
+    def decrypt(self, sBox, inverseSBox, random_numbers, im):
+        # im = Image.open(image)
+        # rgb_im = im.convert('RGB')
+        # pixels = im.load()
 
-        for i in range(im.size[0]):
-            for j in range(im.size[1]):
-                r, g, b = rgb_im.getpixel((i, j))
+        for i in range(len(im)):
+            for j in range(len(im[0])):
+                b, g, r = im[i][j]
 
                 hexR = Util.convertDecToHex(r)
                 hexG = Util.convertDecToHex(g)
@@ -54,7 +55,7 @@ class ImageEncryption:
                 newG = Util.convertDecToHex(newG)
                 newB = Util.convertDecToHex(newB)
 
-                pixels[i, j] = int(inverseSBox[int(newR[0], 16), int(newR[1], 16)], 16), int(
+                im[i, j] = int(inverseSBox[int(newR[0], 16), int(newR[1], 16)], 16), int(
                     inverseSBox[int(newG[0], 16), int(newG[1], 16)], 16), int(
                     inverseSBox[int(newB[0], 16), int(newB[1], 16)],
                     16)
