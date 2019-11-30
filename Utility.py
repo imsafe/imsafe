@@ -1,9 +1,9 @@
+import math
+
 import cv2
 import numpy as np
-from PIL import Image
 from matplotlib import pyplot as plt
 from skimage.metrics import structural_similarity
-import math
 
 
 def convertDecToHex(decimalNumber):
@@ -42,12 +42,10 @@ def calculate_ssim(first_image, second_image):
     print("Structural Similarity Index: {}".format(structural_similarity_index))
 
 
-def generate_random_number(image, random):
-    im = Image.open(image)
-    random_numbers = np.empty((im.size[0], im.size[1], 6), dtype=int)
-
-    for i in range(im.size[0]):
-        for j in range(im.size[1]):
+def generate_random_number(random, height, width):
+    random_numbers = np.empty((height, width, 6), dtype=int)
+    for i in range(height):
+        for j in range(width):
             for k in range(6):
                 random_numbers[i][j][k] = random.randint(0, 15)
 
@@ -65,7 +63,7 @@ def psnr(img1_path, img2_path):
 
     mse = np.mean((img1 - img2) ** 2)
     if mse == 0:
-         print("Same Image")
+        print("Same Image")
     else:
         print(10 * math.log10(1. / mse))
 

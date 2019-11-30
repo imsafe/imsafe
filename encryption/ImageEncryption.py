@@ -3,7 +3,7 @@ import Utility as Util
 
 
 class ImageEncryption:
-    def encrypt(self, sBox, random_numbers, im):
+    def encrypt(self, sBox, random_numbers, im):  # Don't forget to add result queue
         # im = Image.open(image)
         # rgb_im = im.convert('RGB')
         # pixels = im.load()
@@ -32,6 +32,7 @@ class ImageEncryption:
 
                 im[i, j] = newB, newG, newR
 
+        # result_queue.put(im)
         return im
 
     def decrypt(self, sBox, inverseSBox, random_numbers, im):
