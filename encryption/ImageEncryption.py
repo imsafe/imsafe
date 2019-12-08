@@ -1,9 +1,8 @@
-from PIL import Image
 import Utility as Util
 
 
 class ImageEncryption:
-    def encrypt(self, sBox, random_numbers, im):  # Don't forget to add result queue
+    def encrypt(self, sBox, random_numbers, im, result_queue):  # Don't forget to add result queue
         # im = Image.open(image)
         # rgb_im = im.convert('RGB')
         # pixels = im.load()
@@ -32,10 +31,10 @@ class ImageEncryption:
 
                 im[i, j] = newB, newG, newR
 
-        # result_queue.put(im)
-        return im
+        result_queue.put(im)
+        # return im
 
-    def decrypt(self, sBox, inverseSBox, random_numbers, im):
+    def decrypt(self, sBox, inverseSBox, random_numbers, im, result_queue):
         # im = Image.open(image)
         # rgb_im = im.convert('RGB')
         # pixels = im.load()
@@ -56,9 +55,10 @@ class ImageEncryption:
                 newG = Util.convertDecToHex(newG)
                 newB = Util.convertDecToHex(newB)
 
-                im[i, j] = int(inverseSBox[int(newR[0], 16), int(newR[1], 16)], 16), int(
+                im[i, j] = int(inverseSBox[int(newB[0], 16), int(newB[1], 16)], 16), int(
                     inverseSBox[int(newG[0], 16), int(newG[1], 16)], 16), int(
-                    inverseSBox[int(newB[0], 16), int(newB[1], 16)],
+                    inverseSBox[int(newR[0], 16), int(newR[1], 16)],
                     16)
 
-        return im
+        # return im
+        result_queue.put(im)
