@@ -11,7 +11,7 @@ from slicing.Slicer import Slicer
 
 if __name__ == "__main__":
     result_queue = Queue()
-    img = cv2.imread('../img/test2.png')
+    img = cv2.imread('img/test2.png')
     height = int(len(img))
     width = int(len(img[0]))
 
@@ -29,13 +29,13 @@ if __name__ == "__main__":
     # top = np.concatenate((top_left, top_right), 1)
     # bottom = np.concatenate((bottom_left, bottom_right), 1)
     # son = np.concatenate((top, bottom), 0)
-    # cv2.imwrite('../results/son.png', son)
+    # cv2.imwrite('results/son.png', son)
 
     #
-    # cv2.imwrite('../results/top_left.png', top_left)
-    # cv2.imwrite('../results/top_right.png', top_right)
-    # cv2.imwrite('../results/bottom_left.png', bottom_left)
-    # cv2.imwrite('../results/bottom_right.png', bottom_right)
+    # cv2.imwrite('results/top_left.png', top_left)
+    # cv2.imwrite('results/top_right.png', top_right)
+    # cv2.imwrite('results/bottom_left.png', bottom_left)
+    # cv2.imwrite('results/bottom_right.png', bottom_right)
 
     shuffle = KnuthShuffle()
     image_encryption = ImageEncryption()
@@ -86,23 +86,23 @@ if __name__ == "__main__":
     end = time.time()
     print(end - start)
 
-    # cv2.imwrite('../results/en_top_left.png', en_image_top_left)
-    # cv2.imwrite('../results/en_top_right.png', en_image_top_right)
-    # cv2.imwrite('../results/en_bottom_left.png', en_image_bottom_left)
-    # cv2.imwrite('../results/en_bottom_right.png', en_image_bottom_right)
+    # cv2.imwrite('results/en_top_left.png', en_image_top_left)
+    # cv2.imwrite('results/en_top_right.png', en_image_top_right)
+    # cv2.imwrite('results/en_bottom_left.png', en_image_bottom_left)
+    # cv2.imwrite('results/en_bottom_right.png', en_image_bottom_right)
     #
     # son = Slicer.concatenate(en_image_top_left, en_image_top_right, en_image_bottom_left, en_image_bottom_right)
-    # cv2.imwrite('../results/son.png', son)
+    # cv2.imwrite('results/son.png', son)
 
-    cv2.imwrite('../results/en_top_left.png', item1)
-    cv2.imwrite('../results/en_top_right.png', item2)
-    cv2.imwrite('../results/en_bottom_left.png', item3)
-    cv2.imwrite('../results/en_bottom_right.png', item4)
+    cv2.imwrite('results/en_top_left.png', item1)
+    cv2.imwrite('results/en_top_right.png', item2)
+    cv2.imwrite('results/en_bottom_left.png', item3)
+    cv2.imwrite('results/en_bottom_right.png', item4)
 
     son = Slicer.concatenate(item1, item2, item3, item4)
-    cv2.imwrite('../results/son.png', son)
+    cv2.imwrite('results/son.png', son)
     #
-    # cv2.imwrite('../results/top_left.png', top_left)
-    # cv2.imwrite('../results/top_right.png', top_right)
-    # cv2.imwrite('../results/bottom_left.png', bottom_left)
-    # cv2.imwrite('../results/bottom_right.png', bottom_right)
+    # cv2.imwrite('results/top_left.png', top_left)
+    # cv2.imwrite('results/top_right.png', top_right)
+    # cv2.imwrite('results/bottom_left.png', bottom_left)
+    # cv2.imwrite('results/bottom_right.png', bottom_right)
