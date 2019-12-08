@@ -1,4 +1,4 @@
-import Utility as Util
+from util import Utility as Util
 
 
 class ImageEncryption:

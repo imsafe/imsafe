@@ -4,7 +4,7 @@ from multiprocessing import Process, Queue
 
 import cv2
 
-import Utility as Util
+from util import Utility as Util
 from encryption.ImageEncryption import ImageEncryption
 from encryption.KnuthShuffle import KnuthShuffle
 from slicing.Slicer import Slicer

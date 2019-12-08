@@ -1,5 +1,5 @@
 from PIL import Image
-import Utility as Util
+from util import Utility as Util
 
 im = Image.open('encrypted_image.png')
 Util.image_histogram('decrypted_image.png')

@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
-import numpy as np
 
-import Utility as Util
+from util import Utility as Util
 
 fig, ax = plt.subplots(2,3, constrained_layout=True)
 

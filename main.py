@@ -1,5 +1,5 @@
 import random
-import Utility as Util
+from util import Utility as Util
 from encryption.ImageEncryption import ImageEncryption
 from encryption.KnuthShuffle import KnuthShuffle
 

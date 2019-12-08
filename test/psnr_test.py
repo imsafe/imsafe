@@ -1,4 +1,4 @@
-import Utility as Util
+from util import Utility as Util
 
 img1_path = input('Path for image 1: ')
 img2_path = input('Path for image 2: ')

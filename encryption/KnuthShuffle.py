@@ -1,5 +1,5 @@
 import numpy as np
-import Utility as Util
+from util import Utility as Util
 
 
 class KnuthShuffle:
