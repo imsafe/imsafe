@@ -2,14 +2,11 @@ from util import Utility as Util
 
 
 class ImageEncryption:
-    def encrypt(self, sBox, random_numbers, im, result_queue):  # Don't forget to add result queue
-        # im = Image.open(image)
-        # rgb_im = im.convert('RGB')
-        # pixels = im.load()
 
+    # def encrypt(self, sBox, random_numbers, im):
+    def encrypt(self, sBox, random_numbers, im, result_queue, image_id):
         for i in range(len(im)):
             for j in range(len(im[0])):
-                # r, g, b = rgb_im.getpixel((i, j))
                 b, g, r = im[i][j]
 
                 hexR = Util.convertDecToHex(r)
@@ -31,14 +28,11 @@ class ImageEncryption:
 
                 im[i, j] = newB, newG, newR
 
-        result_queue.put(im)
+        result_queue.put((im, image_id))
         # return im
 
-    def decrypt(self, sBox, inverseSBox, random_numbers, im, result_queue):
-        # im = Image.open(image)
-        # rgb_im = im.convert('RGB')
-        # pixels = im.load()
-
+    # def decrypt(self, sBox, inverseSBox, random_numbers, im):
+    def decrypt(self, sBox, inverseSBox, random_numbers, im, result_queue, image_id):
         for i in range(len(im)):
             for j in range(len(im[0])):
                 b, g, r = im[i][j]
@@ -60,5 +54,5 @@ class ImageEncryption:
                     inverseSBox[int(newR[0], 16), int(newR[1], 16)],
                     16)
 
+        result_queue.put((im, image_id))
         # return im
-        result_queue.put(im)

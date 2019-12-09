@@ -1,22 +1,33 @@
 import random
-from util import Utility as Util
+
+import cv2
+import time
 from encryption.ImageEncryption import ImageEncryption
 from encryption.KnuthShuffle import KnuthShuffle
+from util import Utility as Util
 
-image_file_name = input('Enter image path: ')
-encrypted_image_file_name = "results/encrypted_image.png"
+image_file_name = '../img/test_middle.png'
+encrypted_image_file_name = '../results/encrypted_image.png'
 
-password = input("Enter password: ")
-random.seed(password)
+img = cv2.imread(image_file_name)
 
-# Creating sBoxes
+height = int(len(img))
+width = int(len(img[0]))
+
+random.seed(123)
+
 shuffle = KnuthShuffle()
 sBox = shuffle.create_sBox(random)
 inverse_sBox = shuffle.create_inverse_sBox()
 
-# Encrypting image
+random_numbers = Util.generate_random_number(random, height, width)
+
 image_encryption = ImageEncryption()
-random_numbers = Util.generate_random_number(image_file_name, random)
-en_image = image_encryption.encrypt(sBox, random_numbers, image_file_name)
-en_image.show()
-en_image.save(encrypted_image_file_name)
+
+start = time.perf_counter()
+encrypted_image = image_encryption.encrypt(sBox, random_numbers, img)
+finish = time.perf_counter()
+
+print('Finished in {} second(s)'.format(finish - start))
+
+cv2.imwrite(encrypted_image_file_name, encrypted_image)

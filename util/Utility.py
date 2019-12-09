@@ -68,3 +68,6 @@ def psnr(img1_path, img2_path):
         print(10 * math.log10(1. / mse))
 
     return psnr
+
+def sortSecond(val):
+    return val[1]
