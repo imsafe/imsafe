@@ -19,15 +19,15 @@ width = int(len(en_img[0]))
 np.random.seed(123)
 
 shuffle = KnuthShuffle()
-sBox = shuffle.create_s_box(np.random)
-inverse_sBox = shuffle.create_inverse_s_box()
+s_box = shuffle.create_s_box(np.random)
+inverse_s_box = shuffle.create_inverse_s_box()
 
 random_numbers = np.random.randint(0, 16, (height, width, 6))
 
 image_encryption = ImageEncryption()
 
 start = time.perf_counter()
-decrypted_image = image_encryption.decrypt(sBox, inverse_sBox, random_numbers, en_img)
+decrypted_image = image_encryption.decrypt(s_box, inverse_s_box, random_numbers, en_img)
 finish = time.perf_counter()
 
 print('Finished in {} second(s)'.format(finish - start))

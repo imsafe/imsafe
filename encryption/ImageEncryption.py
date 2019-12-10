@@ -3,8 +3,8 @@ from util import Utility as Util
 
 class ImageEncryption:
 
-    def encrypt(self, s_box, random_numbers, im):
-    # def encrypt(self, s_box, random_numbers, im, result_queue, image_id):
+    # def encrypt(self, s_box, random_numbers, im):
+    def encrypt(self, s_box, random_numbers, im, result_queue, image_id):
         for i in range(len(im)):
             for j in range(len(im[0])):
                 b, g, r = im[i][j]
@@ -28,11 +28,11 @@ class ImageEncryption:
 
                 im[i, j] = new_b, new_g, new_r
 
-        # result_queue.put((im, image_id))
-        return im
+        result_queue.put((im, image_id))
+        # return im
 
-    def decrypt(self, s_box, inverse_s_box, random_numbers, im):
-    # def decrypt(self, s_box, inverse_s_box, random_numbers, im, result_queue, image_id):
+    # def decrypt(self, s_box, inverse_s_box, random_numbers, im):
+    def decrypt(self, s_box, inverse_s_box, random_numbers, im, result_queue, image_id):
         for i in range(len(im)):
             for j in range(len(im[0])):
                 b, g, r = im[i][j]
@@ -54,5 +54,5 @@ class ImageEncryption:
                     inverse_s_box[int(new_r[0], 16), int(new_r[1], 16)],
                     16)
 
-        # result_queue.put((im, image_id))
-        return im
+        result_queue.put((im, image_id))
+        # return im

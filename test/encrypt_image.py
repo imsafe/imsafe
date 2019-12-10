@@ -17,15 +17,17 @@ width = int(len(img[0]))
 np.random.seed(123)
 
 shuffle = KnuthShuffle()
-sBox = shuffle.create_s_box(np.random)
-inverse_sBox = shuffle.create_inverse_s_box()
+s_box = shuffle.create_s_box(np.random)
 
+start = time.perf_counter()
 random_numbers = np.random.randint(0, 16, (height, width, 6))
+finish = time.perf_counter()
+print('random Finished in {} second(s)'.format(finish - start))
 
 image_encryption = ImageEncryption()
 
 start = time.perf_counter()
-encrypted_image = image_encryption.encrypt(sBox, random_numbers, img)
+encrypted_image = image_encryption.encrypt(s_box, random_numbers, img)
 finish = time.perf_counter()
 
 print('Finished in {} second(s)'.format(finish - start))
