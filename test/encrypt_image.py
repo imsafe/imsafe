@@ -1,10 +1,10 @@
-import random
+import time
 
 import cv2
-import time
+import numpy as np
+
 from encryption.ImageEncryption import ImageEncryption
 from encryption.KnuthShuffle import KnuthShuffle
-from util import Utility as Util
 
 image_file_name = '../img/test_middle.png'
 encrypted_image_file_name = '../results/encrypted_image.png'
@@ -14,13 +14,13 @@ img = cv2.imread(image_file_name)
 height = int(len(img))
 width = int(len(img[0]))
 
-random.seed(123)
+np.random.seed(123)
 
 shuffle = KnuthShuffle()
-sBox = shuffle.create_sBox(random)
-inverse_sBox = shuffle.create_inverse_sBox()
+sBox = shuffle.create_s_box(np.random)
+inverse_sBox = shuffle.create_inverse_s_box()
 
-random_numbers = Util.generate_random_number(random, height, width)
+random_numbers = np.random.randint(0, 16, (height, width, 6))
 
 image_encryption = ImageEncryption()
 

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 from util import Utility as Util
 
-fig, ax = plt.subplots(2,3, constrained_layout=True)
+fig, ax = plt.subplots(2, 3, constrained_layout=True)
 
 hist = Util.img_ravel("cat.png")
 ax[0][0].hist(hist, 256, [0, 256])
@@ -27,10 +27,6 @@ ax[1][1].set_title('Green')
 hist = Util.img_ravel("./img/red.png")
 ax[1][2].hist(hist, 256, [0, 256])
 ax[1][2].set_title('Blue')
-
-
-
-
 
 fig.suptitle('Histogram Analysis')
 

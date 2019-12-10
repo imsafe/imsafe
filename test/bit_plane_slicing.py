@@ -1,5 +1,6 @@
-from slicing.BitPlane import BitPlane
 import cv2
+
+from slicing.BitPlane import BitPlane
 
 bp = BitPlane()
 planes = bp.slice('img/coin.png')

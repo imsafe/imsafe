@@ -6,11 +6,11 @@ from matplotlib import pyplot as plt
 from skimage.metrics import structural_similarity
 
 
-def convertDecToHex(decimalNumber):
-    if decimalNumber <= 15:
-        return "0" + np.base_repr(decimalNumber, 16)
+def convert_dec_to_hex(decimal_number):
+    if decimal_number <= 15:
+        return "0" + np.base_repr(decimal_number, 16)
     else:
-        return np.base_repr(decimalNumber, 16)
+        return np.base_repr(decimal_number, 16)
 
 
 def image_histogram(image):
@@ -30,26 +30,16 @@ def img_ravel(image):
 
 
 def calculate_ssim(first_image, second_image):
-    imageA = cv2.imread(first_image)
-    imageB = cv2.imread(second_image)
+    image_a = cv2.imread(first_image)
+    image_b = cv2.imread(second_image)
 
-    grayA = cv2.cvtColor(imageA, cv2.COLOR_BGR2GRAY)
-    grayB = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
+    gray_a = cv2.cvtColor(image_a, cv2.COLOR_BGR2GRAY)
+    gray_b = cv2.cvtColor(image_b, cv2.COLOR_BGR2GRAY)
 
-    # structural_similarity_index = structural_similarity(imageA, imageB, multichannel=True)
-    structural_similarity_index = structural_similarity(grayA, grayB)
+    # structural_similarity_index = structural_similarity(image_a, image_b, multichannel=True)
+    structural_similarity_index = structural_similarity(gray_a, gray_b)
 
     print("Structural Similarity Index: {}".format(structural_similarity_index))
-
-
-def generate_random_number(random, height, width):
-    random_numbers = np.empty((height, width, 6), dtype=int)
-    for i in range(height):
-        for j in range(width):
-            for k in range(6):
-                random_numbers[i][j][k] = random.randint(0, 15)
-
-    return random_numbers
 
 
 def psnr(img1_path, img2_path):
@@ -69,5 +59,6 @@ def psnr(img1_path, img2_path):
 
     return psnr
 
-def sortSecond(val):
+
+def sort_second(val):
     return val[1]
