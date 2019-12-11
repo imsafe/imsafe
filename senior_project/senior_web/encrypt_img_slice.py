@@ -1,16 +1,17 @@
 import time
 from multiprocessing import Process, Queue
-
+from django.contrib.staticfiles.storage import staticfiles_storage
 import cv2
 import numpy as np
 
-from encryption.ImageEncryption import ImageEncryption
-from encryption.KnuthShuffle import KnuthShuffle
-from slicing.Slicer import Slicer
-from util import Utility as Util
+from senior_web.encryption.ImageEncryption import ImageEncryption
+from senior_web.encryption.KnuthShuffle import KnuthShuffle
+from senior_web.slicing.Slicer import Slicer
+from senior_web.util import Utility as Util
 
-if __name__ == "__main__":
-    image_file_name = 'img/test_middle.png'
+def encrypt():
+    # image_file_name = 'img/test_middle.png'
+    image_file_name = staticfiles_storage.path('images/test.png')
     encrypted_image_file_name = 'results/encrypted_image.png'
 
     img = cv2.imread(image_file_name)
@@ -71,3 +72,7 @@ if __name__ == "__main__":
     encrypted_image = Slicer.concatenate(image_slice_list[0][0], image_slice_list[1][0], image_slice_list[2][0],
                                          image_slice_list[3][0])
     cv2.imwrite(encrypted_image_file_name, encrypted_image)
+
+
+
+
