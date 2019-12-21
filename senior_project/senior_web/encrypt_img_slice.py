@@ -11,8 +11,8 @@ from senior_web.util import Utility as Util
 
 def encrypt():
     # image_file_name = 'img/test_middle.png'
-    image_file_name = staticfiles_storage.path('images/test.png')
-    encrypted_image_file_name = 'results/encrypted_image.png'
+    image_file_name = staticfiles_storage.path('img/test.png')
+    encrypted_image_file_name = staticfiles_storage.path('results/encrypted_image.png')
 
     img = cv2.imread(image_file_name)
 
@@ -73,6 +73,8 @@ def encrypt():
                                          image_slice_list[3][0])
     cv2.imwrite(encrypted_image_file_name, encrypted_image)
 
+if __name__ == '__main__':
+    encrypt()
 
 
 
