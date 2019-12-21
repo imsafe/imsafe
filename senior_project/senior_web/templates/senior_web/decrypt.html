@@ -1,0 +1,18 @@
+{% extends 'senior_web/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row my-4">
+    <div class="col-lg-6 mx-auto">
+      <form action="{% url 'decrypt' %}" method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary w-100">Dencrypt</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

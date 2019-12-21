@@ -18,6 +18,7 @@ from django.urls import path
 from senior_web import views as web
 
 urlpatterns = [
-    path('', web.index),
+    path('', web.encrypt, name='encrypt'),
+    path('decrypt/', web.decrypt, name='decrypt'),
     path('admin/', admin.site.urls),
 ]
