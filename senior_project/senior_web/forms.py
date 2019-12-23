@@ -10,3 +10,8 @@ class EncryptForm(forms.Form):
 class DecryptForm(forms.Form):
     image = forms.ImageField()
     password = forms.CharField(widget=forms.PasswordInput())
+
+class UserForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput())
+    repeat_password = forms.CharField(widget=forms.PasswordInput())
