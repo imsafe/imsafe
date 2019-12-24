@@ -2,6 +2,9 @@ import math
 
 import cv2
 import numpy as np
+from Crypto.Hash import SHA256
+from Crypto.PublicKey import RSA
+from Crypto.Signature import pkcs1_15
 from matplotlib import pyplot as plt
 from skimage.metrics import structural_similarity
 
@@ -62,3 +65,56 @@ def psnr(img1_path, img2_path):
 
 def sort_second(val):
     return val[1]
+
+
+def generate_keys(private_key_file, public_key_file):
+    key = RSA.generate(2048)
+    private_key = key.export_key()
+    file_out = open(private_key_file, "wb")
+    file_out.write(private_key)
+    file_out.close()
+
+    public_key = key.publickey().export_key()
+    file_out = open(public_key_file, "wb")
+    file_out.write(public_key)
+    file_out.close()
+
+
+def sign_image(file, private_key_file, signature_file):
+    key = RSA.import_key(open(private_key_file).read())
+    h = SHA256.new()
+    block_size = 65536
+
+    with open(file, 'rb') as f:  # Open the file to read it's bytes
+        fb = f.read(block_size)  # Read from the file. Take in the amount declared above
+        while len(fb) > 0:  # While there is still data being read from the file
+            h.update(fb)  # Update the hash
+            fb = f.read(block_size)  # Read the next block from the file
+
+    signature = pkcs1_15.new(key).sign(h)
+
+    f = open(signature_file, 'wb')
+    f.write(signature)
+    f.close()
+
+
+def verify(file, public_key_file, signature_file):
+    key = RSA.import_key(open(public_key_file).read())
+
+    signature = open(signature_file, 'rb').read()
+
+    h = SHA256.new()
+    block_size = 65536
+
+    with open(file, 'rb') as f:  # Open the file to read it's bytes
+        fb = f.read(block_size)  # Read from the file. Take in the amount declared above
+        while len(fb) > 0:  # While there is still data being read from the file
+            h.update(fb)  # Update the hash
+            fb = f.read(block_size)  # Read the next block from the file
+    try:
+        pkcs1_15.new(key).verify(h, signature)
+        is_valid = True
+    except (ValueError, TypeError):
+        is_valid = False
+
+    return is_valid

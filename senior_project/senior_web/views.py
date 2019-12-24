@@ -30,7 +30,7 @@ def encrypt(request):
                 # fotoyu bastir
                 context = {
                     'form' : EncryptForm(),
-                    'img' : uploaded_file_url
+                    'img' : filename
                 }
             else:
                 return HttpResponse('don\'t matched')
