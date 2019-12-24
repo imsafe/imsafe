@@ -1,18 +1,19 @@
 import time
 from multiprocessing import Process, Queue
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 import cv2
 import numpy as np
 
-from encryption.ImageEncryption import ImageEncryption
-from encryption.KnuthShuffle import KnuthShuffle
-from slicing.Slicer import Slicer
-from util import Utility as Util
+from .encryption.ImageEncryption import ImageEncryption
+from .encryption.KnuthShuffle import KnuthShuffle
+from .slicing.Slicer import Slicer
+from .util import Utility as Util
 
-if __name__ == "__main__":
-    image_file_name = 'img/test_middle.png'
-    encrypted_image_file_name = 'results/encrypted_image.png'
-    decrypted_image_file_name = 'results/decrypted_image.png'
+def decrypt(password, img_name):
+    image_file_name = staticfiles_storage.path('img/test.png')
+    encrypted_image_file_name = 'media/' + img_name
+    decrypted_image_file_name = staticfiles_storage.path('results/decrypted_image.png')
 
     en_img = cv2.imread(encrypted_image_file_name)
 
@@ -22,7 +23,7 @@ if __name__ == "__main__":
     array_slicer = Slicer(en_img, height, width)
     en_img_top_left, en_img_top_right, en_img_bottom_left, en_img_bottom_right = array_slicer.slice()
 
-    np.random.seed(123)
+    np.random.seed(int(password))
 
     shuffle = KnuthShuffle()
     s_box = shuffle.create_s_box(np.random)
@@ -78,4 +79,5 @@ if __name__ == "__main__":
                                          image_slice_list[3][0])
     cv2.imwrite(decrypted_image_file_name, decrypted_image)
 
-    Util.calculate_ssim(image_file_name, decrypted_image_file_name)
+
+    return True

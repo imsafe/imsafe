@@ -11,4 +11,5 @@ class User(models.Model):
 
 class Image(models.Model):
     image = models.ImageField(upload_to = 'uploads', null=True, blank=True, default=None)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    # password = models.CharField(max_length=20)
+    # owner = models.ForeignKey(User, on_delete=models.CASCADE)

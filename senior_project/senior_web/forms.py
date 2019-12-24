@@ -1,5 +1,6 @@
 from django import forms
 from PIL import Image
+from .models import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class EncryptForm(forms.Form):

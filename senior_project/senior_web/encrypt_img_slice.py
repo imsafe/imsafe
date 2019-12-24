@@ -4,14 +4,13 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 import cv2
 import numpy as np
 
-from senior_web.encryption.ImageEncryption import ImageEncryption
-from senior_web.encryption.KnuthShuffle import KnuthShuffle
-from senior_web.slicing.Slicer import Slicer
-from senior_web.util import Utility as Util
+from .encryption.ImageEncryption import ImageEncryption
+from .encryption.KnuthShuffle import KnuthShuffle
+from .slicing.Slicer import Slicer
+from .util import Utility as Util
 
-def encrypt():
-    # image_file_name = 'img/test_middle.png'
-    image_file_name = staticfiles_storage.path('img/test.png')
+def encrypt(password, img_name):
+    image_file_name = 'media/' + img_name
     encrypted_image_file_name = staticfiles_storage.path('results/encrypted_image.png')
 
     img = cv2.imread(image_file_name)
@@ -22,7 +21,7 @@ def encrypt():
     array_slicer = Slicer(img, height, width)
     img_top_left, img_top_right, img_bottom_left, img_bottom_right = array_slicer.slice()
 
-    np.random.seed(123)
+    np.random.seed(int(password))
 
     shuffle = KnuthShuffle()
     s_box = shuffle.create_s_box(np.random)
@@ -73,8 +72,9 @@ def encrypt():
                                          image_slice_list[3][0])
     cv2.imwrite(encrypted_image_file_name, encrypted_image)
 
+    return True
+
 if __name__ == '__main__':
     encrypt()
-
 
 
