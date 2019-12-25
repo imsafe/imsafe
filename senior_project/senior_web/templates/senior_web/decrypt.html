@@ -1,18 +1,30 @@
 {% extends 'senior_web/base.html' %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 {% block body %}
 
 <div class="container">
+
   <div class="row my-4">
     <div class="col-lg-6 mx-auto">
       <form action="{% url 'decrypt' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ context.form|crispy }}
         <button type="submit" class="btn btn-primary w-100">Decrypt</button>
       </form>
     </div>
   </div>
+
+  <div class="row my-4">
+    <div class="col-lg-6 mx-auto">
+      {% if context.img != None %}
+      <img class="w-100" src="{% static 'web/results/decrypted_image.png' %}" alt="">
+      {% endif %}
+
+      {{ context.msg }}
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}

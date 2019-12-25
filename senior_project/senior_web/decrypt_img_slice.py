@@ -10,13 +10,13 @@ from .encryption.KnuthShuffle import KnuthShuffle
 from .slicing.Slicer import Slicer
 from .util import Utility as Util
 
-def decrypt(password, img_name):
+def decrypt(password, img_name, public_key_name, signature_name):
     image_file_name = staticfiles_storage.path('img/test.png')
     encrypted_image_file_name = 'media/' + img_name
     decrypted_image_file_name = staticfiles_storage.path('results/decrypted_image.png')
 
-    public_key_file = staticfiles_storage.path('keys/public.pem')
-    signature_file = staticfiles_storage.path('keys/signature.pem')
+    public_key_file = 'media/' + public_key_name
+    signature_file = 'media/' + signature_name
     is_valid = Util.verify(encrypted_image_file_name, public_key_file, signature_file)
 
     if is_valid:
@@ -86,6 +86,7 @@ def decrypt(password, img_name):
     
     else:
         print("The signature is not valid.")
+        return False
 
 
     return True

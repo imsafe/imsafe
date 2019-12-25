@@ -10,6 +10,8 @@ class EncryptForm(forms.Form):
 
 class DecryptForm(forms.Form):
     image = forms.ImageField()
+    public_key = forms.FileField()
+    signature = forms.FileField()
     password = forms.CharField(widget=forms.PasswordInput())
 
 class UserForm(forms.Form):

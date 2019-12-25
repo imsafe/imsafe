@@ -73,9 +73,9 @@ def encrypt(password, img_name):
     cv2.imwrite(encrypted_image_file_name, encrypted_image)
 
     
-    private_key_file = staticfiles_storage.path('keys/private.pem')
-    public_key_file = staticfiles_storage.path('keys/public.pem')
-    signature_file = staticfiles_storage.path('keys/signature.pem')
+    private_key_file = staticfiles_storage.path('keys/private-'+img_name+'.pem')
+    public_key_file = staticfiles_storage.path('keys/public-'+img_name+'.pem')
+    signature_file = staticfiles_storage.path('keys/signature-'+img_name+'.pem')
 
     Util.generate_keys(private_key_file, public_key_file)
     Util.sign_image(encrypted_image_file_name, private_key_file, signature_file)

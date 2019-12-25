@@ -19,18 +19,18 @@ def encrypt(request):
         if form.is_valid():
             image = request.FILES['image']
             fs = FileSystemStorage()
-            filename = fs.save(image.name, image)
-            uploaded_file_url = fs.url(filename)
+            image_filename = fs.save(image.name, image)
+            uploaded_file_url = fs.url(image_filename)
             
             password = form.cleaned_data['password']
             repeat_password = form.cleaned_data['repeat_password']
             
             if password == repeat_password:
-                Encryption.encrypt(password, filename)
-                # fotoyu bastir
+                Encryption.encrypt(password, image_filename)
+                
                 context = {
                     'form' : EncryptForm(),
-                    'img' : filename
+                    'img' : image_filename
                 }
             else:
                 return HttpResponse('don\'t matched')
@@ -50,16 +50,32 @@ def decrypt(request):
 
         if form.is_valid():
             image = request.FILES['image']
+            public_key = request.FILES['public_key']
+            signature = request.FILES['signature']
+
             fs = FileSystemStorage()
-            filename = fs.save(image.name, image)
-            uploaded_file_url = fs.url(filename)
+            public_key_filename = fs.save(public_key.name, public_key)
+            signature_filename = fs.save(signature.name, signature)
+            image_filename = fs.save(image.name, image)
+            uploaded_file_url = fs.url(image_filename)
 
             password = form.cleaned_data['password']
             
-            Decryption.decrypt(password, filename)
+            result = Decryption.decrypt(password, image_filename, public_key_filename, signature_filename)
 
-            return HttpResponse("decrypted")
+            if result:
+                context = {
+                    'form' : DecryptForm(),
+                    'img' : image_filename,
+                }
+            else:
+                context = {
+                    'form' : DecryptForm(),
+                    'msg' : 'The signature is not valid!'
+                }
     else:
-        form = DecryptForm()
+        context = {
+                'form' : DecryptForm(),
+            }
             
-    return render(request, 'senior_web/decrypt.html', {'form': form})
+    return render(request, 'senior_web/decrypt.html', {'context': context})
