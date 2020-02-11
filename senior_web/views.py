@@ -4,7 +4,7 @@ from . import encrypt_img_slice as enc
 from .forms import EncryptForm
 from .forms import DecryptForm
 from .models import Image
-from senior_project.settings import MEDIA_ROOT
+from imsafe.settings import MEDIA_ROOT
 from django.core.files.uploadedfile import SimpleUploadedFile
 from . import encrypt_img_slice as Encryption
 from . import decrypt_img_slice as Decryption
