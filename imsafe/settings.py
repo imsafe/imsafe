@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'senior_web',
+    'web',
     'crispy_forms',
     'rest_framework',
 ]

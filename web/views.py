@@ -12,7 +12,7 @@ from django.core.files.storage import FileSystemStorage
 # Create your views here.
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from senior_web.serializers import UserSerializer, GroupSerializer
+from web.serializers import UserSerializer, GroupSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -60,7 +60,7 @@ def encrypt(request):
             'form' : EncryptForm()
         }
         
-    return render(request, 'senior_web/encrypt.html', {'context': context})
+    return render(request, 'web/encrypt.html', {'context': context})
 
 def decrypt(request):
     if request.method == 'POST':
@@ -96,4 +96,4 @@ def decrypt(request):
                 'form' : DecryptForm(),
             }
             
-    return render(request, 'senior_web/decrypt.html', {'context': context})
+    return render(request, 'web/decrypt.html', {'context': context})

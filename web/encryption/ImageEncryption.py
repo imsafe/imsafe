@@ -1,4 +1,4 @@
-from senior_web.util import Utility as Util
+from web.util import Utility as Util
 
 
 class ImageEncryption:

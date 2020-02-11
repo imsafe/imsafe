@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
-from senior_web import views as web
+from web import views as web
 from django.conf.urls.static import static
 from rest_framework import routers
 
