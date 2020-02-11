@@ -29,6 +29,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+def index(request):
+    return render(request, 'web/index.html') 
+
 def encrypt(request):
 
     if request.method == 'POST':

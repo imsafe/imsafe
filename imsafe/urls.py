@@ -25,7 +25,8 @@ router.register(r'users', web.UserViewSet)
 router.register(r'groups', web.GroupViewSet)
 
 urlpatterns = [
-    path('', web.encrypt, name='encrypt'),
+    path('', web.index, name='index'),
+    path('encrypt/', web.encrypt, name='encrypt'),
     path('decrypt/', web.decrypt, name='decrypt'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
