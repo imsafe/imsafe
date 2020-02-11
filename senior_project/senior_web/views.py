@@ -10,6 +10,24 @@ from . import encrypt_img_slice as Encryption
 from . import decrypt_img_slice as Decryption
 from django.core.files.storage import FileSystemStorage
 # Create your views here.
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from senior_web.serializers import UserSerializer, GroupSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
 
 def encrypt(request):
 
