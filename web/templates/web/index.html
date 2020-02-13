@@ -5,14 +5,73 @@
 {% block body %}
 <!-- Header -->
 <header class="masthead d-flex">
-    <div class="container text-center my-auto">
-      <h1 class="mb-1">ImSafe</h1>
-      <h3 class="mb-5">
-        <em>Secure image storage and transfer application.</em>
-      </h3>
-      <!-- <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a> -->
+  <div class="container text-center my-auto">
+    <h1 class="mb-1">ImSafe</h1>
+    <h3 class="mb-5">
+      <em>Secure image storage and transfer application.</em>
+    </h3>
+    <a class="btn btn-primary btn-xl js-scroll-trigger" href="#team">Find Out More</a>
+  </div>
+  <div class="overlay"></div>
+</header>
+
+<!-- Team -->
+<section class="content-section bg-primary text-white text-center" id="team">
+  <div class="container">
+    <div class="content-section-heading">
+      <!-- <h3 class="text-secondary mb-0">Our Team</h3> -->
+      <h2 class="mb-5">Our Team</h2>
     </div>
-    <div class="overlay"></div>
-  </header>
+    <div class="row justify-content-center">
+      
+      
+      <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+          <img class="service-icon rounded-circle mx-auto mb-3" src="{% static 'img/alpsakaci.jpg' %}" width="100%" alt="">
+        <h4>
+          <strong>Alp Şakacı</strong>
+        </h4>
+        <p class="text-faded mb-0">Back-End Developer</p>
+        <ul class="list-inline mt-3">
+          <li class="list-inline-item">
+            <a class="social-link rounded-circle icon" href="https://alpsakaci.com" target="_blank">
+              <!-- <i class="fab fa-twitter"></i> -->
+              w
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="social-link rounded-circle icon" href="https://github.com/alpsakaci" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li class="list-inline-item" >
+            <a class="social-link rounded-circle icon" href="https://www.linkedin.com/in/alp-sakaci/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6 justify-content-center">
+        <img class="service-icon rounded-circle mx-auto mb-3" src="{% static 'img/devrancanikli.jpeg' %}" width="100%" alt="">
+        <h4>
+          <strong>Devran Canikli</strong>
+        </h4>
+        <p class="text-faded mb-0">Mobile Developer</p>
+        <ul class="list-inline mt-3">
+          <li class="list-inline-item">
+            <a class="social-link rounded-circle icon" href="https://github.com/devrancanikli" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li class="list-inline-item" >
+            <a class="social-link rounded-circle icon" href="https://www.linkedin.com/in/devran-canikli-054498150/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+        </ul>  
+      </div>
+    </div>
+  </div>
+</section>
+
 
 {% endblock %}
