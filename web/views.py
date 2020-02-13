@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from . import encrypt_img_slice as enc
 from .forms import EncryptForm
 from .forms import DecryptForm
-from .models import Image
 from imsafe.settings import MEDIA_ROOT
 from django.core.files.uploadedfile import SimpleUploadedFile
 from . import encrypt_img_slice as Encryption
