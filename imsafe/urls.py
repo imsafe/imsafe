@@ -16,20 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
-from web import views as web
-from api import views as api
 from django.conf.urls.static import static
-from rest_framework import routers
-
-router = routers.DefaultRouter()
-router.register(r'users', api.UserViewSet)
-router.register(r'groups', api.GroupViewSet)
 
 urlpatterns = [
-    path('', web.index, name='index'),
-    # path('encrypt/', web.encrypt, name='encrypt'),
-    # path('decrypt/', web.decrypt, name='decrypt'),
+    path('', include('web.urls')),
+    path('', include('api.urls')),
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
