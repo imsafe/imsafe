@@ -67,19 +67,24 @@ def sort_second(val):
     return val[1]
 
 
-def generate_keys(private_key_file, public_key_file):
+# def generate_keys(private_key_file, public_key_file):
+#     key = RSA.generate(2048)
+#     private_key = key.export_key()
+#     file_out = open(private_key_file, "wb")
+#     file_out.write(private_key)
+#     file_out.close()
+
+#     public_key = key.publickey().export_key()
+#     file_out = open(public_key_file, "wb")
+#     file_out.write(public_key)
+#     file_out.close()
+def generate_keys():
     key = RSA.generate(2048)
     private_key = key.export_key()
-    file_out = open(private_key_file, "wb")
-    file_out.write(private_key)
-    file_out.close()
-
     public_key = key.publickey().export_key()
-    file_out = open(public_key_file, "wb")
-    file_out.write(public_key)
-    file_out.close()
 
-
+    return (private_key, public_key)
+    
 def sign_image(file, private_key_file, signature_file):
     key = RSA.import_key(open(private_key_file).read())
     h = SHA256.new()
