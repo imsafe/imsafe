@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from api.serializers import UserSerializer, UserKeySerializer
+from api.serializers import UserSerializer, UserKeySerializer, ImageSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
@@ -9,7 +9,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-from api.models import UserKey
+from api.models import UserKey, Image
+
+class ImageViewSet(viewsets.ModelViewSet):
+    queryset = Image.objects.all().order_by('date_added')
+    serializer_class = ImageSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     """

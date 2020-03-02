@@ -1,8 +1,21 @@
 from django.contrib.auth.models import User, Group
-from api.models import UserKey
+from api.models import UserKey, Image
 from rest_framework import serializers
 from api.util import Utility
+from rest_framework.request import Request
 
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ['image', 'name', 'description', 'date_added']
+
+    def create(self, validated_data):
+        validated_data['owner_id'] = 1
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
+        
 class UserKeySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserKey

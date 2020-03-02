@@ -8,7 +8,6 @@ from Crypto.Signature import pkcs1_15
 from matplotlib import pyplot as plt
 from skimage.metrics import structural_similarity
 
-
 def convert_dec_to_hex(decimal_number):
     if decimal_number <= 15:
         return "0" + np.base_repr(decimal_number, 16)
