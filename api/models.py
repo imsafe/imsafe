@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime  
+from datetime import datetime
+from api import encrypt_img_slice as encryption
 
 class UserKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -22,8 +23,9 @@ class Image(models.Model):
         return self.name
 
     def encrypt(self, password):
-        print('encryption calisacak')
-        print(password)
+        # enc method
+        encryption.encrypt(self, password)
+        pass
 
     def decrypt(self):
         pass

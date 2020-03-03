@@ -1,5 +1,5 @@
 import numpy as np
-from web.util import Utility as Util
+from api.util import Utility as Util
 
 
 class KnuthShuffle:

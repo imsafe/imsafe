@@ -1,7 +1,18 @@
-from web.util import Utility as Util
-
+from api.util import Utility as Util
+import base64
+from PIL import Image
+import cv2
+from io import StringIO, BytesIO
+import numpy as np
 
 class ImageEncryption:
+
+    @staticmethod
+    def readb64(base64_string):
+        sbuf = BytesIO()
+        sbuf.write(base64.b64decode(base64_string))
+        pimg = Image.open(sbuf)
+        return cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
 
     # def encrypt(self, s_box, random_numbers, im):
     def encrypt(self, s_box, random_numbers, im, result_queue, image_id):

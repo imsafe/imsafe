@@ -3,17 +3,19 @@ from multiprocessing import Process, Queue
 from django.contrib.staticfiles.storage import staticfiles_storage
 import cv2
 import numpy as np
+from django.conf import settings
 
 from .encryption.ImageEncryption import ImageEncryption
 from .encryption.KnuthShuffle import KnuthShuffle
 from .slicing.Slicer import Slicer
 from .util import Utility as Util
 
-def encrypt(password, img_name):
-    image_file_name = 'media/' + img_name
-    encrypted_image_file_name = staticfiles_storage.path('results/encrypted_image.png')
+def encrypt(obj, password):
+    # image_file_name = 'media/' + img_name
+    # encrypted_image_file_name = staticfiles_storage.path('results/encrypted_image.png')
 
-    img = cv2.imread(image_file_name)
+    # img = cv2.imread(image_file_name)
+    img = ImageEncryption.readb64(obj.image)
 
     height = int(len(img))
     width = int(len(img[0]))
@@ -63,22 +65,22 @@ def encrypt(password, img_name):
 
     print('Finished in {} second(s)'.format(finish - start))
 
-    cv2.imwrite('results/en_img_top_left.png', image_slice_list[0][0])
-    cv2.imwrite('results/en_img_top_right.png', image_slice_list[1][0])
-    cv2.imwrite('results/en_img_bottom_left.png', image_slice_list[2][0])
-    cv2.imwrite('results/en_img_bottom_right.png', image_slice_list[3][0])
-
     encrypted_image = Slicer.concatenate(image_slice_list[0][0], image_slice_list[1][0], image_slice_list[2][0],
                                          image_slice_list[3][0])
-    cv2.imwrite(encrypted_image_file_name, encrypted_image)
 
-    
-    private_key_file = staticfiles_storage.path('keys/private-'+img_name+'.pem')
-    public_key_file = staticfiles_storage.path('keys/public-'+img_name+'.pem')
-    signature_file = staticfiles_storage.path('keys/signature-'+img_name+'.pem')
+    media_root = settings.MEDIA_ROOT
+    write_path = media_root+'/uploads/'+obj.name+'.png' 
+    cv2.imwrite(write_path, encrypted_image)
+    obj.image = write_path
+    obj.save()
 
-    Util.generate_keys(private_key_file, public_key_file)
-    Util.sign_image(encrypted_image_file_name, private_key_file, signature_file)
+    # ------------
+    # private_key_file = staticfiles_storage.path('keys/private-'+img_name+'.pem')
+    # public_key_file = staticfiles_storage.path('keys/public-'+img_name+'.pem')
+    # signature_file = staticfiles_storage.path('keys/signature-'+img_name+'.pem')
+
+    # Util.generate_keys(private_key_file, public_key_file)
+    # Util.sign_image(encrypted_image_file_name, private_key_file, signature_file)
 
     return True
 
