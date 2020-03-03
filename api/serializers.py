@@ -4,14 +4,20 @@ from rest_framework import serializers
 from api.util import Utility
 from rest_framework.request import Request
 
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Image
-        fields = ['image', 'name', 'description', 'date_added']
+class ImageSerializer(serializers.Serializer):
+    image = serializers.CharField(min_length=None)
+    name = serializers.CharField(max_length=30)
+    description = serializers.CharField(max_length=50, default='')
+    password = serializers.CharField(max_length=50, default='', write_only=True)
+    date_added = serializers.DateTimeField(read_only=True)
 
     def create(self, validated_data):
-        validated_data['owner_id'] = 1
-        return super().create(validated_data)
+        validated_data['owner_id'] = self.context['request'].user.id
+        password = validated_data['password']
+        del validated_data['password']
+        new_instance = Image.objects.create(**validated_data)
+        new_instance.encrypt(password)
+        return new_instance
 
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
