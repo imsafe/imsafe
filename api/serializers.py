@@ -5,7 +5,7 @@ from api.util import Utility
 from rest_framework.request import Request
 
 class ImageSerializer(serializers.Serializer):
-    image = serializers.CharField(min_length=None)
+    image = serializers.ImageField()
     name = serializers.CharField(max_length=30)
     description = serializers.CharField(max_length=50, default='')
     password = serializers.CharField(max_length=50, default='', write_only=True)
@@ -17,6 +17,8 @@ class ImageSerializer(serializers.Serializer):
         del validated_data['password']
         new_instance = Image.objects.create(**validated_data)
         new_instance.encrypt(password)
+        new_instance.sign()
+        new_instance.save()
         return new_instance
 
     def update(self, instance, validated_data):

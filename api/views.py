@@ -20,6 +20,11 @@ class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects
     serializer_class = ImageSerializer
 
+    def create(self, request, *args, **kwargs):
+        print('create run')
+        # serializer method'unu buraya tasi
+        return super().create(request, *args, **kwargs)
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

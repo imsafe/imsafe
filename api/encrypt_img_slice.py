@@ -1,3 +1,4 @@
+import os.path
 import time
 from multiprocessing import Process, Queue
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -11,11 +12,7 @@ from .slicing.Slicer import Slicer
 from .util import Utility as Util
 
 def encrypt(obj, password):
-    # image_file_name = 'media/' + img_name
-    # encrypted_image_file_name = staticfiles_storage.path('results/encrypted_image.png')
-
-    # img = cv2.imread(image_file_name)
-    img = ImageEncryption.readb64(obj.image)
+    img = cv2.imread(obj.image.path)
 
     height = int(len(img))
     width = int(len(img[0]))
@@ -69,22 +66,8 @@ def encrypt(obj, password):
                                          image_slice_list[3][0])
 
     media_root = settings.MEDIA_ROOT
-    write_path = media_root+'/uploads/'+obj.name+'.png' 
+    write_path = os.path.join(settings.MEDIA_ROOT, 'uploads/'+obj.name+str(obj.id)+'.png') 
     cv2.imwrite(write_path, encrypted_image)
-    obj.image = write_path
-    obj.save()
-
-    # ------------
-    # private_key_file = staticfiles_storage.path('keys/private-'+img_name+'.pem')
-    # public_key_file = staticfiles_storage.path('keys/public-'+img_name+'.pem')
-    # signature_file = staticfiles_storage.path('keys/signature-'+img_name+'.pem')
-
-    # Util.generate_keys(private_key_file, public_key_file)
-    # Util.sign_image(encrypted_image_file_name, private_key_file, signature_file)
+    obj.image = 'uploads/'+obj.name+str(obj.id)+'.png'
 
     return True
-
-if __name__ == '__main__':
-    encrypt()
-
-

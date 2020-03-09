@@ -18,6 +18,9 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+admin.site.site_header = "ImSafe"
+admin.site.site_title = "ImSafe"
+
 urlpatterns = [
     path('', include('web.urls')),
     path('api/', include('api.urls')),

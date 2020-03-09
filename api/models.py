@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 from api import encrypt_img_slice as encryption
+from api import decrypt_img_slice as decryption
+from .util import Utility as Util
 
 class UserKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -13,28 +15,30 @@ class UserKey(models.Model):
 
 class Image(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.TextField(default='')
+    image = models.ImageField(upload_to='uploads')
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=50, default='')
     # hash_code = models.TextField() # Tipini belirle
+    signature = models.TextField(default='')
     date_added = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return self.name
 
     def encrypt(self, password):
-        # enc method
         encryption.encrypt(self, password)
-        pass
 
-    def decrypt(self):
-        pass
+    def decrypt(self, password):
+        decryption.decrypt(self, password)
 
     def sign(self):
-        pass
+        user_keys = UserKey.objects.get(user=self.owner)
+        self.signature = Util.sign_image(self.image, user_keys.private_key)
+        return self.signature
 
     def verify(self):
-        pass
-
+        user_keys = UserKey.objects.get(user=self.owner)
+        return Util.verify(self, user_keys.public_key, self.signature)
+        
     def hash_code(self):
         pass
