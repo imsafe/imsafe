@@ -4,6 +4,8 @@ from api.serializers import UserSerializer, UserKeySerializer, ImageSerializer
 from django.http import request
 from rest_framework.response import Response
 from api.models import UserKey, Image
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
 
 class ImageViewSet(viewsets.ModelViewSet):
 
@@ -24,6 +26,20 @@ class ImageViewSet(viewsets.ModelViewSet):
         print('create run')
         # serializer method'unu buraya tasi
         return super().create(request, *args, **kwargs)
+
+    @action(detail=True, methods=['POST'])
+    def decrypt(self, request, pk=None):
+        password = request.POST.get('password')
+        user = request.user
+        image = self.get_object()
+        serializer = ImageSerializer(image)
+        is_valid = image.verify(user)
+
+        if is_valid:
+            image.decrypt(password)
+            return Response({'status': 'decrypted'})
+        else:
+            return Response({'error': 'signature is not valid'})
 
 class UserViewSet(viewsets.ModelViewSet):
     """

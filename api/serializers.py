@@ -5,6 +5,7 @@ from api.util import Utility
 from rest_framework.request import Request
 
 class ImageSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     image = serializers.ImageField()
     name = serializers.CharField(max_length=30)
     description = serializers.CharField(max_length=50, default='')
@@ -12,12 +13,14 @@ class ImageSerializer(serializers.Serializer):
     date_added = serializers.DateTimeField(read_only=True)
 
     def create(self, validated_data):
-        validated_data['owner_id'] = self.context['request'].user.id
+        print('serializer run')
+        user = self.context['request'].user
+        validated_data['owner_id'] = user.id
         password = validated_data['password']
         del validated_data['password']
         new_instance = Image.objects.create(**validated_data)
         new_instance.encrypt(password)
-        new_instance.sign()
+        new_instance.sign(user)
         new_instance.save()
         return new_instance
 

@@ -84,7 +84,7 @@ def sign_image(image, private_key):
             fb = f.read(block_size)  # Read the next block from the file
     signature = pkcs1_15.new(key).sign(h)
 
-    return signature
+    return bytearray(signature).hex()
 
 def verify(image, public_key, signature):
     key = RSA.import_key(public_key)
@@ -97,7 +97,7 @@ def verify(image, public_key, signature):
             h.update(fb)  # Update the hash
             fb = f.read(block_size)  # Read the next block from the file
     try:
-        pkcs1_15.new(key).verify(h, signature)
+        pkcs1_15.new(key).verify(h, bytearray.fromhex(signature))
         is_valid = True
     except (ValueError, TypeError):
         is_valid = False

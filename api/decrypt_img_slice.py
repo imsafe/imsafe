@@ -13,7 +13,7 @@ from .slicing.Slicer import Slicer
 from .util import Utility as Util
 
 def decrypt(obj, password):
-    en_img = cv2.imread(obj.image)
+    en_img = cv2.imread(obj.image.path)
 
     height = int(len(en_img))
     width = int(len(en_img[0]))
@@ -72,7 +72,7 @@ def decrypt(obj, password):
                                         image_slice_list[3][0])
 
     media_root = settings.MEDIA_ROOT
-    write_path = os.path.join(settings.MEDIA_ROOT, 'uploads/dec-'+obj.name+str(obj.id)+'.png') 
+    write_path = os.path.join(settings.MEDIA_ROOT, 'decrypted/'+obj.name+str(obj.id)+'.png') 
     cv2.imwrite(write_path, decrypted_image)
 
     return True

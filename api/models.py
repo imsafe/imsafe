@@ -31,14 +31,14 @@ class Image(models.Model):
     def decrypt(self, password):
         decryption.decrypt(self, password)
 
-    def sign(self):
-        user_keys = UserKey.objects.get(user=self.owner)
+    def sign(self, user):
+        user_keys = UserKey.objects.get(user=user)
         self.signature = Util.sign_image(self.image, user_keys.private_key)
         return self.signature
 
-    def verify(self):
-        user_keys = UserKey.objects.get(user=self.owner)
-        return Util.verify(self, user_keys.public_key, self.signature)
+    def verify(self, user):
+        user_keys = UserKey.objects.get(user=user)
+        return Util.verify(self.image, user_keys.public_key, self.signature)
         
     def hash_code(self):
         pass
