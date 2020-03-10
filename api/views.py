@@ -32,12 +32,17 @@ class ImageViewSet(viewsets.ModelViewSet):
         password = request.POST.get('password')
         user = request.user
         image = self.get_object()
-        serializer = ImageSerializer(image)
         is_valid = image.verify(user)
 
         if is_valid:
-            image.decrypt(password)
-            return Response({'status': 'decrypted'})
+            decrypted_image = image.decrypt(password)
+            load = {
+                'image' : decrypted_image,
+                'name' : image.name,
+                'description': image.description,
+            }
+            
+            return Response(load)
         else:
             return Response({'error': 'signature is not valid'})
 

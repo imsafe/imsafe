@@ -75,4 +75,4 @@ def decrypt(obj, password):
     write_path = os.path.join(settings.MEDIA_ROOT, 'decrypted/'+obj.name+str(obj.id)+'.png') 
     cv2.imwrite(write_path, decrypted_image)
 
-    return True
+    return write_path

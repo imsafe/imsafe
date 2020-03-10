@@ -29,7 +29,7 @@ class Image(models.Model):
         encryption.encrypt(self, password)
 
     def decrypt(self, password):
-        decryption.decrypt(self, password)
+        return decryption.decrypt(self, password)
 
     def sign(self, user):
         user_keys = UserKey.objects.get(user=user)
