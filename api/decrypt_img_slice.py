@@ -74,5 +74,5 @@ def decrypt(obj, password):
     media_root = settings.MEDIA_ROOT
     write_path = os.path.join(settings.MEDIA_ROOT, 'decrypted/'+obj.name+str(obj.id)+'.png') 
     cv2.imwrite(write_path, decrypted_image)
-
-    return write_path
+    
+    return 'https://imsafe.systems'+settings.MEDIA_URL+'decrypted/'+obj.name+str(obj.id)+'.png'
