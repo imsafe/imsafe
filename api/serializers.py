@@ -40,7 +40,7 @@ class UserSerializer(serializers.Serializer):
     first_name = serializers.CharField(required=False, allow_blank=True)
     last_name = serializers.CharField(required=False, allow_blank=True)
     date_joined = serializers.CharField(read_only=True)
-    is_active = serializers.BooleanField(default=True)
+    is_active = serializers.BooleanField(default=True, read_only=True)
     userkey = UserKeySerializer(read_only=True)
 
     def create(self, validated_data):
@@ -54,11 +54,10 @@ class UserSerializer(serializers.Serializer):
         instance.id = validated_data.get('id', instance.id)
         instance.username = validated_data.get('username', instance.username)
         instance.email = validated_data.get('email', instance.email)
-        instance.password = validated_data.get('password', instance.password)
+        instance.set_password(validated_data.get('password', instance.password))
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.date_joined = validated_data.get('date_joined', instance.date_joined)
-        instance.is_active = validated_data.get('is_active', instance.is_active)
         instance.save()
         return instance
 

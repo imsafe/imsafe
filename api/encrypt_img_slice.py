@@ -68,6 +68,7 @@ def encrypt(obj, password):
     media_root = settings.MEDIA_ROOT
     write_path = os.path.join(settings.MEDIA_ROOT, 'uploads/'+obj.name+str(obj.id)+'.png') 
     cv2.imwrite(write_path, encrypted_image)
+    os.remove(obj.image.path)
     obj.image = 'uploads/'+obj.name+str(obj.id)+'.png'
 
     return True

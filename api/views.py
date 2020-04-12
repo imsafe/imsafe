@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from api.models import UserKey, Image
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
+import copy
 
 class ImageViewSet(viewsets.ModelViewSet):
 
@@ -28,6 +29,19 @@ class ImageViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     @action(detail=True, methods=['POST'])
+    def transfer(self, request, pk=None):
+        user = request.user
+        image = self.get_object()
+        transfer_image = copy.deepcopy(image)
+        transfer_image.id = None
+        new_owner = User.objects.get(id=request.POST.get('new_owner'))
+        transfer_image.owner = new_owner
+        transfer_image.sign(new_owner)
+        transfer_image.save()
+
+        return Response({'transfer': 'ok'})
+
+    @action(detail=True, methods=['POST'])
     def decrypt(self, request, pk=None):
         password = request.POST.get('password')
         user = request.user
@@ -41,7 +55,7 @@ class ImageViewSet(viewsets.ModelViewSet):
                 'name' : image.name,
                 'description': image.description,
             }
-            
+
             return Response(load)
         else:
             return Response({'error': 'signature is not valid'})

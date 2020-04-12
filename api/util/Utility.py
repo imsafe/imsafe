@@ -61,27 +61,26 @@ def psnr(img1_path, img2_path):
 
     return psnr
 
-
 def sort_second(val):
     return val[1]
 
-def generate_keys():
+def generate_keys(self):
     key = RSA.generate(2048)
-    private_key = key.export_key()
-    public_key = key.publickey().export_key()
+    private_key = key.export_key(pkcs=8).decode('utf-8')
+    public_key = key.publickey().export_key(pkcs=8).decode('utf-8')
 
-    return (private_key.decode('utf-8'), public_key.decode('utf-8'))
+    return (private_key, public_key)
 
 def sign_image(image, private_key):
     key = RSA.import_key(private_key)
     h = SHA256.new()
     block_size = 65536
 
-    with open(image.path, 'rb') as f:  # Open the file to read it's bytes
-        fb = f.read(block_size)  # Read from the file. Take in the amount declared above
-        while len(fb) > 0:  # While there is still data being read from the file
-            h.update(fb)  # Update the hash
-            fb = f.read(block_size)  # Read the next block from the file
+    with open(image.path, 'rb') as f:  
+        fb = f.read(block_size)  
+        while len(fb) > 0:  
+            h.update(fb)  
+            fb = f.read(block_size)
     signature = pkcs1_15.new(key).sign(h)
 
     return bytearray(signature).hex()
@@ -91,11 +90,11 @@ def verify(image, public_key, signature):
     h = SHA256.new()
     block_size = 65536
 
-    with open(image.path, 'rb') as f:  # Open the file to read it's bytes
-        fb = f.read(block_size)  # Read from the file. Take in the amount declared above
-        while len(fb) > 0:  # While there is still data being read from the file
-            h.update(fb)  # Update the hash
-            fb = f.read(block_size)  # Read the next block from the file
+    with open(image.path, 'rb') as f:
+        fb = f.read(block_size)
+        while len(fb) > 0:
+            h.update(fb)
+            fb = f.read(block_size)
     try:
         pkcs1_15.new(key).verify(h, bytearray.fromhex(signature))
         is_valid = True

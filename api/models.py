@@ -3,12 +3,17 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from api import encrypt_img_slice as encryption
 from api import decrypt_img_slice as decryption
+from Crypto.PublicKey import RSA
 from .util import Utility as Util
 
 class UserKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     private_key = models.TextField()
     public_key = models.TextField()
+
+    def set_keys(self, private_key, public_key):
+        self.private_key = private_key
+        self.public_key = public_key
 
     class Meta:
         unique_together = ['user']
