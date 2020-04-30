@@ -12,5 +12,7 @@ urlpatterns = [
     path('search-user/', views.search_user),
     path('followings/', views.followings),
     path('followers/', views.followers),
+    path('follow/', views.follow),
+    path('unfollow/', views.unfollow),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

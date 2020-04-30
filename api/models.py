@@ -13,12 +13,6 @@ class UserRelation(models.Model):
     def __str__(self):
         return self.user.username
 
-    def follow(self, other_id):
-        pass
-
-    def unfollow(self):
-        pass
-
 class UserKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     private_key = models.TextField()

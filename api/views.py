@@ -84,7 +84,7 @@ class UserKeyViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
 def search_user(request):
-    query = request.POST.get("name")
+    query = request.POST.get('name')
     res = []
     if query != '':
         users = User.objects.filter(username__contains= query)
@@ -118,3 +118,37 @@ def followers(request):
     serializer = UserSerializer(load, many=True)
 
     return Response(serializer.data)
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+def follow(request):
+    try:
+        user = request.user
+        user_relation = UserRelation.objects.get(user=user)
+        
+        to_follow = User.objects.get(id=request.POST.get('user_id'))
+        to_follow_relation = UserRelation.objects.get(user=to_follow)
+
+        user_relation.follows.add(to_follow_relation)
+        user_relation.save()
+        return Response([{'follow':'true'}]) 
+
+    except Exception:
+        return Response([{'follow':'false'}]) 
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+def unfollow(request):
+    try:
+        user = request.user
+        user_relation = UserRelation.objects.get(user=user)
+
+        to_unfollow = User.objects.get(id=request.POST.get('user_id'))
+        to_unfollow_relation = UserRelation.objects.get(user=to_unfollow)
+
+        user_relation.follows.remove(to_unfollow_relation)
+        user_relation.save()
+        return Response([{'unfollow':'true'}])
+
+    except Exception:
+        return Response([{'unfollow':'false'}])
