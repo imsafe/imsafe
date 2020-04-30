@@ -64,7 +64,7 @@ def psnr(img1_path, img2_path):
 def sort_second(val):
     return val[1]
 
-def generate_keys(self):
+def generate_keys():
     key = RSA.generate(2048)
     private_key = key.export_key(pkcs=8).decode('utf-8')
     public_key = key.publickey().export_key(pkcs=8).decode('utf-8')

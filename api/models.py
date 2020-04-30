@@ -6,6 +6,19 @@ from api import decrypt_img_slice as decryption
 from Crypto.PublicKey import RSA
 from .util import Utility as Util
 
+class UserRelation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    follows = models.ManyToManyField('self', symmetrical=False)
+
+    def __str__(self):
+        return self.user.username
+
+    def follow(self, other_id):
+        pass
+
+    def unfollow(self):
+        pass
+
 class UserKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     private_key = models.TextField()

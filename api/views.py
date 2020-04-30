@@ -1,11 +1,15 @@
 from django.contrib.auth.models import User
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework import viewsets
 from api.serializers import UserSerializer, UserKeySerializer, ImageSerializer
 from django.http import request
 from rest_framework.response import Response
-from api.models import UserKey, Image
+from api.models import UserKey, Image, UserRelation
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from rest_framework.decorators import authentication_classes
 import copy
 
 class ImageViewSet(viewsets.ModelViewSet):
@@ -22,6 +26,7 @@ class ImageViewSet(viewsets.ModelViewSet):
 
     queryset = Image.objects
     serializer_class = ImageSerializer
+    authentication_classes = (SessionAuthentication, BasicAuthentication, TokenAuthentication)
 
     def create(self, request, *args, **kwargs):
         print('create run')
@@ -66,6 +71,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    authentication_classes = (SessionAuthentication, BasicAuthentication, TokenAuthentication)
 
 class UserKeyViewSet(viewsets.ModelViewSet):
     """
@@ -73,3 +79,42 @@ class UserKeyViewSet(viewsets.ModelViewSet):
     """
     queryset = UserKey.objects.all()
     serializer_class = UserKeySerializer
+    authentication_classes = (SessionAuthentication, BasicAuthentication, TokenAuthentication)
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+def search_user(request):
+    query = request.POST.get("name")
+    res = []
+    if query != '':
+        users = User.objects.filter(username__contains= query)
+        serializer = UserSerializer(users, many=True)
+        res = serializer.data
+    return Response(res)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+def followings(request):
+    user = request.user
+    relations = UserRelation.objects.get(user=user)
+    load = []
+    
+    for relation in relations.follows.all():
+        load.append(relation.user)
+
+    serializer = UserSerializer(load, many=True)
+
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+def followers(request):
+    relations = UserRelation.objects.filter(follows__user=request.user)
+    load = []
+    
+    for relation in relations:
+        load.append(relation.user)
+
+    serializer = UserSerializer(load, many=True)
+
+    return Response(serializer.data)
