@@ -9,5 +9,10 @@ router.register(r'images',  views.ImageViewSet, basename='Images')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('search-user/', views.search_user),
+    path('followings/', views.followings),
+    path('followers/', views.followers),
+    path('follow/', views.follow),
+    path('unfollow/', views.unfollow),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from api.models import UserKey, Image
+from api.models import UserKey, Image, UserRelation
 from rest_framework import serializers
 from api.util import Utility
 from rest_framework.request import Request
@@ -26,7 +26,7 @@ class ImageSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
-        
+
 class UserKeySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserKey
@@ -47,7 +47,9 @@ class UserSerializer(serializers.Serializer):
         user = User.objects.create_user(**validated_data)
         private_key, public_key = Utility.generate_keys()
         key = UserKey(user_id=user.id, private_key=private_key, public_key=public_key)
+        relation = UserRelation(user=user)
         key.save()
+        relation.save()
         return user 
     
     def update(self, instance, validated_data):
