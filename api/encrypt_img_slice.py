@@ -54,7 +54,7 @@ def encrypt(obj, password):
 
     image_slice_list = [result_queue.get() for i in range(4)]
     image_slice_list.sort(key=Util.sort_second)
-
+    
     for proc in procs:
         proc.join()
 

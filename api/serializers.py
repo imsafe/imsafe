@@ -41,7 +41,6 @@ class UserSerializer(serializers.Serializer):
     last_name = serializers.CharField(required=False, allow_blank=True)
     date_joined = serializers.CharField(read_only=True)
     is_active = serializers.BooleanField(default=True, read_only=True)
-    userkey = UserKeySerializer(read_only=True)
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)

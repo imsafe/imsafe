@@ -5,6 +5,7 @@ from api import encrypt_img_slice as encryption
 from api import decrypt_img_slice as decryption
 from Crypto.PublicKey import RSA
 from .util import Utility as Util
+import os
 
 class UserRelation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -36,6 +37,11 @@ class Image(models.Model):
 
     def __str__(self):
         return self.name
+
+    def delete(self, using=None, keep_parents=False):
+        if os.path.isfile(self.image.path):
+            os.remove(self.image.path)
+        return super().delete(using=using, keep_parents=keep_parents)
 
     def encrypt(self, password):
         encryption.encrypt(self, password)
