@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes
 import copy
+import shutil
 
 class ImageViewSet(viewsets.ModelViewSet):
 
@@ -41,6 +42,15 @@ class ImageViewSet(viewsets.ModelViewSet):
         transfer_image.id = None
         new_owner = User.objects.get(id=request.POST.get('new_owner'))
         transfer_image.owner = new_owner
+        # copy file
+        new_path = ''
+        path = image.image.path.split('/')
+        image_name = path.pop()
+        for dir in path:
+            new_path += dir + '/'
+        new_path += 'trn-' + str(new_owner.id) + image_name
+        shutil.copy2(image.image.path, new_path)
+        transfer_image.image = 'uploads/' + 'trn-' + str(new_owner.id) + image_name
         transfer_image.sign(new_owner)
         transfer_image.save()
 
@@ -87,7 +97,7 @@ def search_user(request):
     query = request.POST.get('name')
     res = []
     if query != '':
-        users = User.objects.filter(username__contains= query)
+        users = User.objects.filter(username__icontains= query)
         serializer = UserSerializer(users, many=True)
         res = serializer.data
     return Response(res)
