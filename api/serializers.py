@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from api.models import UserKey, Image, UserRelation
 from rest_framework import serializers
 from api.util import Utility
@@ -13,12 +13,11 @@ class ImageSerializer(serializers.Serializer):
     date_added = serializers.DateTimeField(read_only=True)
 
     def create(self, validated_data):
-        print('serializer run')
         user = self.context['request'].user
-        validated_data['owner_id'] = user.id
         password = validated_data['password']
         del validated_data['password']
-        new_instance = Image.objects.create(**validated_data)
+        # TODO: Encrypt image before persist
+        new_instance = Image.objects.create(**validated_data, owner=user)
         new_instance.encrypt(password)
         new_instance.sign(user)
         new_instance.save()
@@ -30,38 +29,30 @@ class ImageSerializer(serializers.Serializer):
 class UserKeySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserKey
-        fields = ['private_key', 'public_key']
+        fields = ['public_key']
 
-class UserSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)    
-    username = serializers.CharField(required=True)
-    email = serializers.EmailField(required=True)
+class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(required=True, write_only=True)
-    first_name = serializers.CharField(required=False, allow_blank=True)
-    last_name = serializers.CharField(required=False, allow_blank=True)
     date_joined = serializers.CharField(read_only=True)
-    is_active = serializers.BooleanField(default=True, read_only=True)
+    is_active = serializers.BooleanField(read_only=True, default=True)
+    userkey = UserKeySerializer(read_only=True)
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         private_key, public_key = Utility.generate_keys()
-        key = UserKey(user_id=user.id, private_key=private_key, public_key=public_key)
-        relation = UserRelation(user=user)
-        key.save()
-        relation.save()
-        return user 
-    
-    def update(self, instance, validated_data):
-        instance.id = validated_data.get('id', instance.id)
-        instance.username = validated_data.get('username', instance.username)
-        instance.email = validated_data.get('email', instance.email)
-        instance.set_password(validated_data.get('password', instance.password))
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.date_joined = validated_data.get('date_joined', instance.date_joined)
-        instance.save()
-        return instance
+        key = UserKey(user_id=user.id)
+        UserKey.objects.create(user=user, private_key=private_key, public_key=public_key)
+        UserRelation.objects.create(user=user)
 
+        return user
+
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+        instance.set_password(validated_data.get('password', instance.password))
+        instance.save()
+
+        return instance
+    
     class Meta:
         model = User
-        fields = ['userkey']
+        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name', 'date_joined', 'is_active', 'userkey']
