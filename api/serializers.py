@@ -45,6 +45,13 @@ class UserSerializer(serializers.ModelSerializer):
         UserRelation.objects.create(user=user)
 
         return user
+
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+        instance.set_password(validated_data.get('password', instance.password))
+        instance.save()
+
+        return instance
     
     class Meta:
         model = User

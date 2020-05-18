@@ -10,11 +10,13 @@ from rest_framework.decorators import action
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes
+from rest_framework.permissions import AllowAny
 import copy
 import shutil
 
 class ImageViewSet(viewsets.ModelViewSet):
 
+    # TODO: refoctor class
     def list(self, request):
         user = request.user
         
@@ -28,11 +30,6 @@ class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects
     serializer_class = ImageSerializer
     authentication_classes = (SessionAuthentication, BasicAuthentication, TokenAuthentication)
-
-    def create(self, request, *args, **kwargs):
-        print('create run')
-        # serializer method'unu buraya tasi
-        return super().create(request, *args, **kwargs)
 
     @action(detail=True, methods=['POST'])
     def transfer(self, request, pk=None):
@@ -82,6 +79,15 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     authentication_classes = (SessionAuthentication, BasicAuthentication, TokenAuthentication)
+    permission_classes_by_action = {'create': [AllowAny] }
+
+    def get_permissions(self):
+        try:
+            # return permission_classes depending on `action` 
+            return [permission() for permission in self.permission_classes_by_action[self.action]]
+        except KeyError: 
+            # action is not set return default permission_classes
+            return [permission() for permission in self.permission_classes]
 
 class UserKeyViewSet(viewsets.ModelViewSet):
     """
