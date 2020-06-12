@@ -24,3 +24,6 @@ api/api-auth/logout/ - [GET]
 /api/images/{image_id} - [GET] [PUT] [DELETE]<br>
 /api/images/{image_id}/decrypt/ - [POST]<br>
 /api/images/{image_id}/transfer/ - [POST]
+
+###### Proje Tanitim Videosu
+https://www.youtube.com/watch?v=pQLKPwcoxNU
